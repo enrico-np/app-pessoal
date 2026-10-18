@@ -6,3 +6,4 @@ Personal productivity web app. Features are added incrementally, one folder each
 - Layout: `src/features/<name>/` per feature; DB client in `src/db/client.ts`; tables re-exported from `src/db/schema.ts`; exportable tables in `src/features/registry.ts`.
 - After schema changes run `npm run db:push`. Verify with `npm run typecheck`, `npm run lint`, `npm test`.
 - Data lives in `data/app.db` (git-ignored). Keep data easy to export (CSV/JSON) for external analysis.
+- Spec-driven (lightweight): new features that add a table or page start with a spec in `specs/NNN-name.md` (copy `specs/TEMPLATE.md`). Draft it with the user and get approval before writing code; derive tests from "Done when".
