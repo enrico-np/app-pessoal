@@ -66,14 +66,14 @@ Foundation (built first, only what this screen uses):
 
 Feature:
 - `src/features/menu/schema.ts`, `queries.ts` (list, add, update, remove, move), `validation.ts` (Zod), `cards.ts` (registry).
-- Server Actions in `src/features/menu/actions.ts` for every write; each action validates input and revalidates `/`.
+- Server Actions in `src/features/menu/actions.ts` for every write. Validation and the query call live in `mutations.ts` (no Next.js APIs, so tests call it); `actions.ts` only wraps it and calls `refresh()` on success.
 - Components in `src/features/menu/components/`: `MenuGrid`, `Block` (one renderer per type), `BlockEditor` (form), `IconPicker`.
 - Page `src/app/page.tsx` renders `MenuGrid` inside `<Suspense>`. Edit-mode state is client-side only.
 - Reads are split into two layers. Reason: `better-sqlite3` is synchronous, so with `cacheComponents: true` an unguarded query runs at build time and the page ships stale data (documented in `node_modules/next/dist/docs/01-app/03-api-reference/04-functions/connection.md`).
   - `src/features/menu/queries.ts`: plain query functions, no `connection()`. Unit tests call these.
   - `src/features/menu/data.ts`: one wrapper per read used for rendering; each calls `await connection()` and then the query. Pages and components import reads only from `data.ts`.
   - Verified 2026-10-18: `connection()` throws outside a request ("`connection` was called outside a request scope"), so tests cannot call `data.ts`.
-- Actions call `revalidatePath("/")` after writes. Reads are not cached (`"use cache"` is not used): SQLite is local and single-user.
+- Actions call `refresh()` (from `next/cache`) after successful writes to re-render the page. `revalidatePath` is not used because nothing is cached. Reads are not cached (`"use cache"` is not used): SQLite is local and single-user.
 - `public/manifest.webmanifest` and `<link rel="manifest">` so it can be installed on a phone. Icons: placeholder PNGs, not verified on a real device.
 - Next.js APIs (Server Actions, caching with `cacheComponents`) are checked against `node_modules/next/dist/docs/` before use.
 
@@ -82,7 +82,7 @@ Feature:
 - [x] Schema, migration, registry entry for export
 - [x] Zod validation and tests
 - [x] Queries and move logic, with tests
-- [ ] Server Actions
+- [x] Server Actions
 - [ ] `MenuGrid` and block renderers
 - [ ] Edit mode: add, remove, move, rename, icon, size
 - [ ] "Tarefas abertas" card and card registry
