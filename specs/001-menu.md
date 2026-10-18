@@ -83,7 +83,7 @@ Feature:
 - [x] Zod validation and tests
 - [x] Queries and move logic, with tests
 - [x] Server Actions
-- [ ] `MenuGrid` and block renderers
+- [x] `MenuGrid` and block renderers
 - [ ] Edit mode: add, remove, move, rename, icon, size
 - [ ] "Tarefas abertas" card and card registry
 - [ ] Manifest
