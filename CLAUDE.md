@@ -31,7 +31,8 @@ Personal productivity web app. Features are added incrementally, one folder each
 - CSV export is Brazilian Excel format (`;` separator, `,` decimal, UTF-8 BOM). JSON export keeps `.` decimals.
 
 ## Lessons
-Append one line per repeated mistake: what went wrong, and the rule that prevents it. Empty so far.
+Append one line per repeated mistake: what went wrong, and the rule that prevents it.
+- 2026-10-18: editing files through shell one-liners (sed, python, long heredoc chains) broke three times: a quote made bash fail to parse, sed dropped regex backslashes, python wrote CRLF. Rule: change file contents with the Edit/Write tools; use the shell only to run commands.
 
 ## Data reads in pages
 - `better-sqlite3` is synchronous. With `cacheComponents: true`, a Server Component that queries it without `await connection()` (from `next/server`) is prerendered at build time and shows stale data.

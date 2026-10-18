@@ -33,3 +33,10 @@ export async function addBlock(
 export async function blockLabels(page: Page): Promise<string[]> {
   return page.locator("[data-block-label]").evaluateAll((els) => els.map((e) => e.getAttribute("data-block-label") ?? ""));
 }
+
+// Runs SQL directly against the e2e database, for setting up data the UI has no form for yet.
+export function execSql(sql: string) {
+  const db = new Database(DB_PATH);
+  db.exec(sql);
+  db.close();
+}

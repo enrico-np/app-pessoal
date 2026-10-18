@@ -53,7 +53,7 @@ New table `menu_blocks` (in `src/features/menu/schema.ts`, re-exported from `src
 - [x] Renaming, changing icon and changing size persist after a reload.
 - [x] Removing a block asks for confirmation and removes only that block.
 - [x] A shortcut with an invalid `href` (empty, or not starting with `/`, `http://` or `https://`) is rejected with a pt-BR error message.
-- [ ] The "Tarefas abertas" card shows the correct count after rows are inserted into `tasks`.
+- [x] The "Tarefas abertas" card shows the correct count after rows are inserted into `tasks`.
 - [x] Layout has no horizontal scroll at 360 px width; tap targets are at least 44 px.
 - [x] `/api/export/menu_blocks?format=csv` downloads the blocks.
 - [x] Unit tests cover: position reordering logic, config validation per type, href validation. `npm run typecheck`, `npm run lint`, `npm test` pass.
@@ -78,7 +78,7 @@ Feature:
 - Next.js APIs (Server Actions, caching with `cacheComponents`) are checked against `node_modules/next/dist/docs/` before use.
 
 ## Tasks
-Browser checks: `e2e/menu.spec.ts` (Playwright, 360 x 740, run with `npm run test:e2e`). "Add one block of each type" covers shortcut, note and counter; the card type is checked with the card task.
+Browser checks: `e2e/menu.spec.ts` (Playwright, 360 x 740, run with `npm run test:e2e`). Card blocks: `e2e/menu-cards.spec.ts`.
 
 - [x] Foundation: tokens, `Button`, `Input`, `Card`, `format.ts` with tests
 - [x] Schema, migration, registry entry for export
@@ -87,6 +87,6 @@ Browser checks: `e2e/menu.spec.ts` (Playwright, 360 x 740, run with `npm run tes
 - [x] Server Actions
 - [x] `MenuGrid` and block renderers
 - [x] Edit mode: add, remove, move, rename, icon, size
-- [ ] "Tarefas abertas" card and card registry
+- [x] "Tarefas abertas" card and card registry
 - [ ] Manifest
 - [ ] Check the "Done when" list in the running app at 360 px width
