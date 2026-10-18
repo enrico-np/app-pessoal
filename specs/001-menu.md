@@ -1,6 +1,6 @@
 # 001 – Menu screen
 
-Status: in progress
+Status: shipped
 
 ## Problem
 I need one screen that opens first, gets me to any feature in one tap, and shows the few numbers that matter today. My priorities change, so I must be able to rearrange it without editing code.
@@ -89,4 +89,4 @@ Browser checks: `e2e/menu.spec.ts` (Playwright, 360 x 740, run with `npm run tes
 - [x] Edit mode: add, remove, move, rename, icon, size
 - [x] "Tarefas abertas" card and card registry
 - [x] Manifest (`src/app/manifest.ts`, icons from `scripts/generate-icons.mjs`, checked by `e2e/manifest.spec.ts`; install on a real phone not verified)
-- [ ] Check the "Done when" list in the running app at 360 px width
+- [x] Check the "Done when" list in the running app at 360 px width (production build, light and dark screenshots; found and fixed: save button was below the fold in the editor)

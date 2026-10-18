@@ -146,9 +146,11 @@ test("360 px: no horizontal scroll and tap targets of at least 44 px", async ({ 
   await expectNoHorizontalScroll(page);
   await expectTapTargets(page);
 
-  await openEditor(page, "Água");
+  const dialog = await openEditor(page, "Água");
   await expectNoHorizontalScroll(page);
   await expectTapTargets(page);
+  // The save button is pinned, so it is reachable without scrolling the panel.
+  await expect(dialog.getByRole("button", { name: "Salvar" })).toBeInViewport({ ratio: 1 });
   await page.getByRole("dialog").getByRole("button", { name: "Fechar" }).click();
 
   await page.getByRole("button", { name: "Concluir" }).click();

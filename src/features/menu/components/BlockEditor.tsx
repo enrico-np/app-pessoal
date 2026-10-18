@@ -151,15 +151,18 @@ export function BlockEditor({ block, isFirst = false, isLast = false, cardOption
         </div>
       </fieldset>
 
-      {error && (
-        <p role="alert" className="text-sm text-danger">
-          {error}
-        </p>
-      )}
-
-      <Button type="submit" disabled={pending}>
-        {block ? "Salvar" : "Adicionar"}
-      </Button>
+      {/* Pinned to the bottom of the dialog's scroll area so saving never needs a scroll on a phone.
+          -mx-4/px-4 and -bottom-4 cancel the Dialog body padding (p-4) so the bar spans the full width and edge. */}
+      <div className="sticky -bottom-4 -mx-4 flex flex-col gap-2 border-t border-border bg-surface px-4 pt-3 pb-4">
+        {error && (
+          <p role="alert" className="text-sm text-danger">
+            {error}
+          </p>
+        )}
+        <Button type="submit" disabled={pending}>
+          {block ? "Salvar" : "Adicionar"}
+        </Button>
+      </div>
 
       {block && (
         <div className="flex flex-col gap-2 border-t border-border pt-4">
