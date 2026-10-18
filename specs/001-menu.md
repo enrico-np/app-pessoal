@@ -84,7 +84,7 @@ Feature:
 - [x] Queries and move logic, with tests
 - [x] Server Actions
 - [x] `MenuGrid` and block renderers
-- [ ] Edit mode: add, remove, move, rename, icon, size
+- [x] Edit mode: add, remove, move, rename, icon, size (code done; not yet exercised in a browser)
 - [ ] "Tarefas abertas" card and card registry
 - [ ] Manifest
 - [ ] Check the "Done when" list in the running app at 360 px width

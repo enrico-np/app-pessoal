@@ -12,7 +12,8 @@ export async function Menu() {
     const card = typeof block.config.cardKey === "string" ? cards[block.config.cardKey] : undefined;
     if (card) cardNodes[block.id] = <card.Component />;
   }
-  return <MenuGrid blocks={blocks} cardNodes={cardNodes} />;
+  const cardOptions = Object.entries(cards).map(([key, card]) => ({ key, label: card.label }));
+  return <MenuGrid blocks={blocks} cardNodes={cardNodes} cardOptions={cardOptions} />;
 }
 
 export function MenuSkeleton() {
