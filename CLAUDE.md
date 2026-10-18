@@ -21,3 +21,13 @@ Personal productivity web app. Features are added incrementally, one folder each
 ## Verification
 - Do not say a task is done until the relevant command ran and passed in this session (`npm run typecheck`, `npm run lint`, `npm test`, or the app running). Report failures with the actual output.
 - If something fails twice, stop and ask instead of trying a third variation; then record the lesson here.
+
+## UI
+- Shared UI lives in `src/components/ui/` (Button, Input, Card, Table) with design tokens in `src/app/globals.css`. Features reuse these components; do not write ad-hoc one-off styles. Create the shared components when the first feature needs a screen.
+- Date, number and currency formatting goes through `src/lib/format.ts` (pt-BR, BRL), not inline.
+
+## Exports
+- CSV export is Brazilian Excel format (`;` separator, `,` decimal, UTF-8 BOM). JSON export keeps `.` decimals.
+
+## Lessons
+Append one line per repeated mistake: what went wrong, and the rule that prevents it. Empty so far.

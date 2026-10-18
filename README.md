@@ -38,5 +38,5 @@ Each feature lives in `src/features/<name>/` (schema, queries, components).
 
 - All data is in one file: `data/app.db` (git-ignored). Open it directly with pandas
   (`sqlite3`), DuckDB, DBeaver, Metabase, etc.
-- Export any registered table: `/api/export/<table>?format=csv` or `?format=json`.
+- Export any registered table: `/api/export/<table>?format=csv` or `?format=json`. CSV uses `;` as separator, `,` as decimal mark and a UTF-8 BOM (Brazilian Excel format). JSON is unchanged, with `.` decimals; use it for pandas or DuckDB.
 - Back up by copying `data/app.db`.
