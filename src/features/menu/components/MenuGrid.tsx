@@ -72,7 +72,7 @@ export function MenuGrid({ blocks, cardNodes, cardOptions }: Props) {
       </div>
       <ul className="grid auto-rows-[7.5rem] grid-cols-2 gap-3 md:grid-cols-4">
         {blocks.map((block) => (
-          <li key={block.id} className={sizeClasses[block.size]}>
+          <li key={block.id} className={sizeClasses[block.size]} data-block-label={block.label}>
             {editing ? (
               <EditableBlock block={block} onEdit={() => setTarget(block.id)} />
             ) : (

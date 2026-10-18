@@ -19,7 +19,8 @@ Personal productivity web app. Features are added incrementally, one folder each
 - Comments explain why, not what. Do not write comments that restate the code.
 
 ## Verification
-- Do not say a task is done until the relevant command ran and passed in this session (`npm run typecheck`, `npm run lint`, `npm test`, or the app running). Report failures with the actual output.
+- Do not say a task is done until the relevant command ran and passed in this session (`npm run typecheck`, `npm run lint`, `npm test`, `npm run test:e2e` for anything in the UI).
+- Browser tests live in `e2e/` (Playwright, 360 x 740 viewport). They run against `data/e2e.db`, recreated from migrations on each run; never point them at `data/app.db`. They are not in the pre-commit hook because they take about 30 s. Report failures with the actual output.
 - If something fails twice, stop and ask instead of trying a third variation; then record the lesson here.
 
 ## UI

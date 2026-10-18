@@ -15,6 +15,11 @@ test("writes decimals with a comma and integers unchanged", () => {
   expect(toCsv([{ a: 1234.5, b: 7 }])).toBe(`${BOM}a;b\n1234,5;7`);
 });
 
+test("writes objects as JSON, quoted because JSON contains double quotes", () => {
+  expect(toCsv([{ c: { href: "/x" } }])).toBe(`${BOM}c
+"{""href"":""/x""}"`);
+});
+
 test("empty input gives empty string", () => {
   expect(toCsv([])).toBe("");
 });

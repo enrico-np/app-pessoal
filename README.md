@@ -22,6 +22,7 @@ npm run dev         # http://localhost:3000
 | `npm run db:migrate` | apply pending migrations to the SQLite file |
 | `npm run db:studio` | browse the data in a web UI |
 | `npm test` | unit tests |
+| `npm run test:e2e` | browser tests (Playwright, 360 px, separate `data/e2e.db`) |
 | `npm run typecheck` / `npm run lint` | static checks |
 
 ## Adding a feature

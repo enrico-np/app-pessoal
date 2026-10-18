@@ -46,17 +46,17 @@ New table `menu_blocks` (in `src/features/menu/schema.ts`, re-exported from `src
 - Config is validated with a Zod schema per type before it is written. Add `zod` as a dependency.
 
 ## Done when
-- [ ] Opening `/` with an empty database shows the empty state in pt-BR.
-- [ ] I can add one block of each type and see it on the grid.
-- [ ] A counter's `+` and `-` change its value and survive a page reload, outside edit mode.
-- [ ] Reordering moves a block one position and survives a reload; positions stay unique and gapless.
-- [ ] Renaming, changing icon and changing size persist after a reload.
-- [ ] Removing a block asks for confirmation and removes only that block.
-- [ ] A shortcut with an invalid `href` (empty, or not starting with `/`, `http://` or `https://`) is rejected with a pt-BR error message.
+- [x] Opening `/` with an empty database shows the empty state in pt-BR.
+- [x] I can add one block of each type and see it on the grid.
+- [x] A counter's `+` and `-` change its value and survive a page reload, outside edit mode.
+- [x] Reordering moves a block one position and survives a reload; positions stay unique and gapless.
+- [x] Renaming, changing icon and changing size persist after a reload.
+- [x] Removing a block asks for confirmation and removes only that block.
+- [x] A shortcut with an invalid `href` (empty, or not starting with `/`, `http://` or `https://`) is rejected with a pt-BR error message.
 - [ ] The "Tarefas abertas" card shows the correct count after rows are inserted into `tasks`.
-- [ ] Layout has no horizontal scroll at 360 px width; tap targets are at least 44 px.
-- [ ] `/api/export/menu_blocks?format=csv` downloads the blocks.
-- [ ] Unit tests cover: position reordering logic, config validation per type, href validation. `npm run typecheck`, `npm run lint`, `npm test` pass.
+- [x] Layout has no horizontal scroll at 360 px width; tap targets are at least 44 px.
+- [x] `/api/export/menu_blocks?format=csv` downloads the blocks.
+- [x] Unit tests cover: position reordering logic, config validation per type, href validation. `npm run typecheck`, `npm run lint`, `npm test` pass.
 
 ## Plan
 Foundation (built first, only what this screen uses):
@@ -78,13 +78,15 @@ Feature:
 - Next.js APIs (Server Actions, caching with `cacheComponents`) are checked against `node_modules/next/dist/docs/` before use.
 
 ## Tasks
+Browser checks: `e2e/menu.spec.ts` (Playwright, 360 x 740, run with `npm run test:e2e`). "Add one block of each type" covers shortcut, note and counter; the card type is checked with the card task.
+
 - [x] Foundation: tokens, `Button`, `Input`, `Card`, `format.ts` with tests
 - [x] Schema, migration, registry entry for export
 - [x] Zod validation and tests
 - [x] Queries and move logic, with tests
 - [x] Server Actions
 - [x] `MenuGrid` and block renderers
-- [x] Edit mode: add, remove, move, rename, icon, size (code done; not yet exercised in a browser)
+- [x] Edit mode: add, remove, move, rename, icon, size
 - [ ] "Tarefas abertas" card and card registry
 - [ ] Manifest
 - [ ] Check the "Done when" list in the running app at 360 px width

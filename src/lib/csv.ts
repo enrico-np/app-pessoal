@@ -4,7 +4,13 @@ const BOM = "﻿";
 function cell(v: unknown): string {
   if (v == null) return "";
   const s =
-    v instanceof Date ? v.toISOString() : typeof v === "number" ? String(v).replace(".", ",") : String(v);
+    v instanceof Date
+      ? v.toISOString()
+      : typeof v === "number"
+        ? String(v).replace(".", ",")
+        : typeof v === "object"
+          ? JSON.stringify(v) // JSON columns such as menu_blocks.config
+          : String(v);
   return /[";\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 
