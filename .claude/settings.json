@@ -1,0 +1,31 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/typecheck.mjs",
+            "timeout": 120,
+            "statusMessage": "Typechecking..."
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Bash(git commit *)",
+            "command": "(npm run typecheck && npm run lint && npm test) >&2 || { echo 'Commit blocked: typecheck, lint or tests failed.' >&2; exit 2; }",
+            "timeout": 300,
+            "statusMessage": "Running checks before commit..."
+          }
+        ]
+      }
+    ]
+  }
+}
