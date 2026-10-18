@@ -31,3 +31,11 @@ Personal productivity web app. Features are added incrementally, one folder each
 
 ## Lessons
 Append one line per repeated mistake: what went wrong, and the rule that prevents it. Empty so far.
+
+## Data reads in pages
+- `better-sqlite3` is synchronous. With `cacheComponents: true`, a Server Component that queries it without `await connection()` (from `next/server`) is prerendered at build time and shows stale data.
+- Each feature keeps two read layers:
+  - `queries.ts`: plain query functions, no `connection()`. Unit tests import these.
+  - `data.ts`: wrappers that call `await connection()` and then the query. Pages and components import reads only from `data.ts`, never from `queries.ts`.
+- Wrap components that read data in `<Suspense>`. Do not cache reads with `"use cache"`; the database is local and single-user.
+- Route handlers with dynamic params (like `/api/export/[table]`) are already dynamic; verified with `next build` on 2026-10-18.
