@@ -79,8 +79,8 @@ Feature:
 
 ## Tasks
 - [x] Foundation: tokens, `Button`, `Input`, `Card`, `format.ts` with tests
-- [ ] Schema, `db:push`, registry entry for export
-- [ ] Zod validation and tests
+- [x] Schema, `db:push`, registry entry for export
+- [x] Zod validation and tests
 - [ ] Queries and move logic, with tests
 - [ ] Server Actions
 - [ ] `MenuGrid` and block renderers
