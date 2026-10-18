@@ -9,7 +9,7 @@ Personal app to make daily life easier, built one feature at a time.
 ```bash
 npm install
 cp .env.example .env.local
-npm run db:push     # create/update tables in data/app.db
+npm run db:migrate  # create/update tables in data/app.db
 npm run dev         # http://localhost:3000
 ```
 
@@ -18,7 +18,8 @@ npm run dev         # http://localhost:3000
 | Command | What it does |
 |---|---|
 | `npm run dev` | dev server |
-| `npm run db:push` | sync schema to the SQLite file |
+| `npm run db:generate` | create a SQL migration in `drizzle/` from schema changes |
+| `npm run db:migrate` | apply pending migrations to the SQLite file |
 | `npm run db:studio` | browse the data in a web UI |
 | `npm test` | unit tests |
 | `npm run typecheck` / `npm run lint` | static checks |
@@ -28,7 +29,7 @@ npm run dev         # http://localhost:3000
 Each feature lives in `src/features/<name>/` (schema, queries, components).
 
 1. Create `src/features/<name>/schema.ts` with the Drizzle table(s).
-2. Re-export it from `src/db/schema.ts`, then run `npm run db:push`.
+2. Re-export it from `src/db/schema.ts`, then run `npm run db:generate` and `npm run db:migrate`. Commit the generated file in `drizzle/`.
 3. To make it downloadable, add the table to `src/features/registry.ts`.
 4. Add pages under `src/app/<name>/`.
 

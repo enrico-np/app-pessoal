@@ -72,16 +72,16 @@ Feature:
 - Reads are split into two layers. Reason: `better-sqlite3` is synchronous, so with `cacheComponents: true` an unguarded query runs at build time and the page ships stale data (documented in `node_modules/next/dist/docs/01-app/03-api-reference/04-functions/connection.md`).
   - `src/features/menu/queries.ts`: plain query functions, no `connection()`. Unit tests call these.
   - `src/features/menu/data.ts`: one wrapper per read used for rendering; each calls `await connection()` and then the query. Pages and components import reads only from `data.ts`.
-  - Not verified: whether `connection()` throws outside a request (in Vitest). Check when writing the first test; the split is kept either way.
+  - Verified 2026-10-18: `connection()` throws outside a request ("`connection` was called outside a request scope"), so tests cannot call `data.ts`.
 - Actions call `revalidatePath("/")` after writes. Reads are not cached (`"use cache"` is not used): SQLite is local and single-user.
 - `public/manifest.webmanifest` and `<link rel="manifest">` so it can be installed on a phone. Icons: placeholder PNGs, not verified on a real device.
 - Next.js APIs (Server Actions, caching with `cacheComponents`) are checked against `node_modules/next/dist/docs/` before use.
 
 ## Tasks
 - [x] Foundation: tokens, `Button`, `Input`, `Card`, `format.ts` with tests
-- [x] Schema, `db:push`, registry entry for export
+- [x] Schema, migration, registry entry for export
 - [x] Zod validation and tests
-- [ ] Queries and move logic, with tests
+- [x] Queries and move logic, with tests
 - [ ] Server Actions
 - [ ] `MenuGrid` and block renderers
 - [ ] Edit mode: add, remove, move, rename, icon, size
