@@ -78,7 +78,7 @@ Feature:
 - Next.js APIs (Server Actions, caching with `cacheComponents`) are checked against `node_modules/next/dist/docs/` before use.
 
 ## Tasks
-- [ ] Foundation: tokens, `Button`, `Input`, `Card`, `format.ts` with tests
+- [x] Foundation: tokens, `Button`, `Input`, `Card`, `format.ts` with tests
 - [ ] Schema, `db:push`, registry entry for export
 - [ ] Zod validation and tests
 - [ ] Queries and move logic, with tests
