@@ -88,5 +88,5 @@ Browser checks: `e2e/menu.spec.ts` (Playwright, 360 x 740, run with `npm run tes
 - [x] `MenuGrid` and block renderers
 - [x] Edit mode: add, remove, move, rename, icon, size
 - [x] "Tarefas abertas" card and card registry
-- [ ] Manifest
+- [x] Manifest (`src/app/manifest.ts`, icons from `scripts/generate-icons.mjs`, checked by `e2e/manifest.spec.ts`; install on a real phone not verified)
 - [ ] Check the "Done when" list in the running app at 360 px width
