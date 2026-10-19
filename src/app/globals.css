@@ -2,33 +2,70 @@
 
 /*
   Design tokens. Components use the Tailwind names from @theme below
-  (bg-surface, text-muted, border-border, bg-accent, rounded-card, min-h-tap ...),
+  (bg-surface, text-muted, border-border, bg-accent, rounded-card, min-h-tap, shadow-hard ...),
   never raw colors, so the palette can change here in one place.
+  Source of truth for values and usage: the "app-pessoal" design system artifact.
+  Style: neo-brutalist (2px outlines in --border, hard offset shadows without blur).
 */
 :root {
-  --background: #fafafa;
+  --background: #d7d9ce;
   --surface: #ffffff;
-  --foreground: #18181b;
-  --muted: #71717a;
-  --border: #e4e4e7;
-  --accent: #2563eb;
-  --accent-foreground: #ffffff;
-  --danger: #dc2626;
+  --foreground: #040404;
+  --muted: #4b5355;
+  --border: #040404;
+  /* Text on --accent must be --accent-foreground (black, 6.2:1); white on #119da4 is 3.3:1. */
+  --accent: #119da4;
+  --accent-foreground: #040404;
+  /* Teal for text on --background or --surface; --accent is too light for text. */
+  --link: #13505b;
+  --danger: #a8281f;
   --danger-foreground: #ffffff;
+
+  --hard-shadow: 4px 4px 0px 0px var(--border);
+  --hard-shadow-sm: 2px 2px 0px 0px var(--border);
 }
 
+/*
+  Dark values apply when the saved theme is "dark" (data-theme on <html>, set by the inline script in
+  layout.tsx), or when it is "system"/unset and the OS prefers dark. The two blocks must stay identical.
+*/
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #09090b;
-    --surface: #18181b;
-    --foreground: #f4f4f5;
-    --muted: #a1a1aa;
-    --border: #27272a;
-    --accent: #3b82f6;
-    --accent-foreground: #ffffff;
-    --danger: #ef4444;
-    --danger-foreground: #ffffff;
+  :root:not([data-theme="light"]) {
+    --background: #0f1c1e;
+    --surface: #182a2d;
+    --foreground: #e8eae1;
+    --muted: #a3aca6;
+    /* Black outlines are not visible on a dark background, so outlines and shadows use the light sage. */
+    --border: #d7d9ce;
+    --accent: #119da4;
+    --accent-foreground: #040404;
+    --link: #6fd0d5;
+    --danger: #ff8a7a;
+    --danger-foreground: #040404;
+    color-scheme: dark;
   }
+}
+
+:root[data-theme="dark"] {
+  --background: #0f1c1e;
+  --surface: #182a2d;
+  --foreground: #e8eae1;
+  --muted: #a3aca6;
+  --border: #d7d9ce;
+  --accent: #119da4;
+  --accent-foreground: #040404;
+  --link: #6fd0d5;
+  --danger: #ff8a7a;
+  --danger-foreground: #040404;
+  color-scheme: dark;
+}
+
+/* Tamanho do texto (spec 002). Tailwind sizes are in rem, so the whole UI scales with the root size. */
+:root[data-text-size="sm"] {
+  font-size: 93.75%;
+}
+:root[data-text-size="lg"] {
+  font-size: 112.5%;
 }
 
 @theme inline {
@@ -39,14 +76,20 @@
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-link: var(--link);
   --color-danger: var(--danger);
   --color-danger-foreground: var(--danger-foreground);
 
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  /* Fallbacks matter: without them a failed font download shows numbers in a serif face. */
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: var(--font-parkinsans);
 
-  --radius-control: 0.5rem;
-  --radius-card: 0.875rem;
+  --radius-control: 0.3125rem;
+  --radius-card: 0.5rem;
+
+  --shadow-hard: var(--hard-shadow);
+  --shadow-hard-sm: var(--hard-shadow-sm);
 
   /* Minimum touch target (spec 001: at least 44 px). */
   --spacing-tap: 2.75rem;
@@ -56,4 +99,14 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* In the base layer so a font-* utility on a heading still overrides it. */
+@layer base {
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-parkinsans), var(--font-geist-sans), system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
 }

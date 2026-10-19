@@ -1,6 +1,14 @@
+export { BottomNav } from "./BottomNav";
 export { Button, type ButtonProps } from "./Button";
+export { Calendar, type DayRange } from "./Calendar";
 export { Card } from "./Card";
+export { ChipButton, ChipLink } from "./Chip";
 export { Dialog } from "./Dialog";
+export { Icon } from "./Icon";
+export { IconButton, IconLink } from "./IconButton";
 export { Input, type InputProps } from "./Input";
+export { PageHeader } from "./PageHeader";
+export { SegmentedControl, type Segment } from "./SegmentedControl";
 export { Select, type SelectProps } from "./Select";
+export { Switch } from "./Switch";
 export { Textarea, type TextareaProps } from "./Textarea";

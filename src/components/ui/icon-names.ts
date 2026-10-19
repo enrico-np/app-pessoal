@@ -1,0 +1,58 @@
+// Fixed list of icons a pin can use, stored by name in home_pins.icon. Kept apart from Icon.tsx so
+// validation can import it without React. Each name maps to a lucide-react component in Icon.tsx.
+export const ICON_NAMES = [
+  "list-checks",
+  "wallet",
+  "banknote",
+  "dumbbell",
+  "heart",
+  "droplet",
+  "notebook-pen",
+  "calendar",
+  "clock",
+  "star",
+  "target",
+  "book-open",
+  "shopping-cart",
+  "utensils",
+  "pill",
+  "bed",
+  "briefcase",
+  "house",
+  "car",
+  "plane",
+  "music",
+  "gamepad",
+  "lightbulb",
+  "link",
+] as const;
+
+export type IconName = (typeof ICON_NAMES)[number];
+
+// pt-BR names read by screen readers in the icon picker.
+export const ICON_LABELS: Record<IconName, string> = {
+  "list-checks": "Lista",
+  wallet: "Carteira",
+  banknote: "Dinheiro",
+  dumbbell: "Treino",
+  heart: "Coração",
+  droplet: "Gota",
+  "notebook-pen": "Caderno",
+  calendar: "Calendário",
+  clock: "Relógio",
+  star: "Estrela",
+  target: "Alvo",
+  "book-open": "Livro",
+  "shopping-cart": "Compras",
+  utensils: "Comida",
+  pill: "Remédio",
+  bed: "Sono",
+  briefcase: "Trabalho",
+  house: "Casa",
+  car: "Carro",
+  plane: "Viagem",
+  music: "Música",
+  gamepad: "Jogos",
+  lightbulb: "Ideia",
+  link: "Link",
+};

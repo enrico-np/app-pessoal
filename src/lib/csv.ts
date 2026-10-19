@@ -9,7 +9,7 @@ function cell(v: unknown): string {
       : typeof v === "number"
         ? String(v).replace(".", ",")
         : typeof v === "object"
-          ? JSON.stringify(v) // JSON columns such as menu_blocks.config
+          ? JSON.stringify(v) // JSON columns
           : String(v);
   return /[";\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }

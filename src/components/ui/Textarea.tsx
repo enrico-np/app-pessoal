@@ -22,8 +22,8 @@ export function Textarea({ label, error, id, className, rows = 4, ...props }: Te
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : undefined}
         className={cn(
-          "rounded-control border border-border bg-surface px-3 py-2 text-base text-foreground",
-          "focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent",
+          "rounded-control border-2 border-border bg-surface px-3 py-2 text-base text-foreground",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground",
           error && "border-danger",
           className,
         )}

@@ -18,8 +18,8 @@ export function Select({ label, options, id, className, ...props }: SelectProps)
       <select
         id={inputId}
         className={cn(
-          "min-h-tap rounded-control border border-border bg-surface px-3 text-base text-foreground",
-          "focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent",
+          "min-h-tap rounded-control border-2 border-border bg-surface px-3 text-base text-foreground",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground",
           className,
         )}
         {...props}

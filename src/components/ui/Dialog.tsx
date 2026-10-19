@@ -1,5 +1,6 @@
 "use client";
 
+import { X } from "lucide-react";
 import { useEffect, useId, useRef, type ReactNode } from "react";
 import { Button } from "./Button";
 
@@ -32,15 +33,15 @@ export function Dialog({ open, onClose, title, children }: DialogProps) {
         // The inner div fills the dialog, so a click whose target is the dialog itself landed on the backdrop.
         if (e.target === ref.current) onClose();
       }}
-      className="m-0 mt-auto w-full max-w-none rounded-t-card bg-surface text-foreground backdrop:bg-black/50 md:m-auto md:max-w-lg md:rounded-card"
+      className="m-0 mt-auto w-full max-w-none rounded-t-card border-2 border-border bg-surface text-foreground backdrop:bg-black/50 md:m-auto md:max-w-lg md:rounded-card"
     >
       <div className="flex max-h-[85dvh] flex-col">
-        <div className="flex items-center justify-between gap-2 border-b border-border px-4 py-2">
-          <h2 id={titleId} className="text-base font-semibold">
+        <div className="flex items-center justify-between gap-2 border-b-2 border-border px-4 py-2">
+          <h2 id={titleId} className="text-xl font-bold">
             {title}
           </h2>
           <Button variant="ghost" size="icon" onClick={onClose} aria-label="Fechar">
-            ✕
+            <X aria-hidden="true" />
           </Button>
         </div>
         <div className="overflow-y-auto p-4">{open && children}</div>
