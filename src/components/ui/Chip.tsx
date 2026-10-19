@@ -1,13 +1,14 @@
 import Link from "next/link";
 import type { ButtonHTMLAttributes } from "react";
 import { cn } from "@/lib/cn";
+import { pressFlat, pressHardSm } from "./pressable";
 
 // Pill used for filters. Selected chips use the accent fill and a small hard shadow.
 function chipClasses(selected: boolean) {
   return cn(
     "inline-flex min-h-tap shrink-0 items-center rounded-full border-2 border-border px-3.5 text-sm",
     "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground",
-    selected ? "bg-accent font-bold text-accent-foreground shadow-hard-sm" : "bg-surface text-foreground",
+    selected ? cn("bg-accent font-bold text-accent-foreground", pressHardSm) : cn("bg-surface text-foreground", pressFlat),
   );
 }
 

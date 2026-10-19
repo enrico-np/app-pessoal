@@ -2,7 +2,7 @@ import { beforeEach, expect, test } from "vitest";
 import type { Db } from "@/db/types";
 import { logActivity } from "@/features/activity/log";
 import { parsePeriod } from "@/features/activity/period";
-import { activityFeatureKeys, listActivity, openCountsSince } from "@/features/activity/queries";
+import { activityFeatureKeys, listActivity, pinOpenCountsSince } from "@/features/activity/queries";
 import { completeTaskMutation } from "@/features/tasks/mutations";
 import { countOpenTasks, listOldestOpenTasks } from "@/features/tasks/queries";
 import { tasks } from "@/features/tasks/schema";
@@ -40,11 +40,27 @@ test("filters by feature and by an inclusive day range", () => {
   expect(activityFeatureKeys(db)).toEqual(["general", "tasks"]);
 });
 
-test("openCountsSince counts open entries per target", () => {
+test("Início entries are not offered as a feature chip", () => {
   seed();
-  logActivity(db, { kind: "open", featureKey: "visit", action: "page.open", summary: "/", targetHref: "/", at: at(17) });
-  logActivity(db, { kind: "open", featureKey: "visit", action: "page.open", summary: "/x", targetHref: "/x", at: at(1) });
-  expect(openCountsSince(db, at(10))).toEqual(new Map([["/", 2]]));
+  logActivity(db, { featureKey: "home", action: "home.edited", summary: "Início editado · 1 mudança", details: ["x"] });
+  expect(activityFeatureKeys(db)).toEqual(["general", "tasks"]);
+  expect(listActivity(db)[0].details).toEqual(["x"]);
+});
+
+test("pinOpenCountsSince counts only pin taps per target, since the given date", () => {
+  seed(); // includes a page.open row for "/", which must not count
+  const tap = (href: string, day: number) =>
+    logActivity(db, { kind: "open", featureKey: "home", action: "pin.open", summary: href, targetHref: href, at: at(day) });
+  tap("https://www.youtube.com/", 17);
+  tap("https://www.youtube.com/", 18);
+  tap("/historico", 16);
+  tap("/historico", 1);
+  expect(pinOpenCountsSince(db, at(10))).toEqual(
+    new Map([
+      ["https://www.youtube.com/", 2],
+      ["/historico", 1],
+    ]),
+  );
 });
 
 test("completing a task marks it done and logs it", () => {

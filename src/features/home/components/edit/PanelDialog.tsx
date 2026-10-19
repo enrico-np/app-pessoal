@@ -2,30 +2,22 @@
 
 import { useState } from "react";
 import { Button, Dialog, SegmentedControl } from "@/components/ui";
+import type { DraftPanel } from "../../draft";
 import { panelType, SIZE_LABELS } from "../../panel-types";
-import type { HomePanelRow, PanelSize } from "../../schema";
-import type { Direction } from "../../validation";
+import type { PanelSize } from "../../schema";
 import { ConfigFields, draftFrom, toConfig } from "./ConfigFields";
 
-// Edit one panel: its config fields, size, and place inside its group.
+// Edit one panel: its config fields and size. Its place is changed by dragging (spec 003).
 export function PanelDialog({
   panel,
-  isFirst,
-  isLast,
-  pending,
   error,
   onClose,
   onSave,
-  onMove,
 }: {
-  panel: HomePanelRow;
-  isFirst: boolean;
-  isLast: boolean;
-  pending: boolean;
+  panel: DraftPanel;
   error: string | null;
   onClose: () => void;
   onSave: (update: { size: PanelSize; config?: Record<string, unknown> }) => void;
-  onMove: (direction: Direction) => void;
 }) {
   const type = panelType(panel.typeKey);
   const [size, setSize] = useState<PanelSize>(panel.size);
@@ -57,17 +49,9 @@ export function PanelDialog({
             {error}
           </p>
         )}
-        <Button type="submit" disabled={pending} className="min-h-12 text-base font-bold">
+        <Button type="submit" className="min-h-12 text-base font-bold">
           Salvar
         </Button>
-        <div className="grid grid-cols-2 gap-2">
-          <Button variant="secondary" disabled={pending || isFirst} onClick={() => onMove("earlier")}>
-            ↑ Mover para cima
-          </Button>
-          <Button variant="secondary" disabled={pending || isLast} onClick={() => onMove("later")}>
-            ↓ Mover para baixo
-          </Button>
-        </div>
       </form>
     </Dialog>
   );

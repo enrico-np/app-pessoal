@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { pressFlat } from "./pressable";
 
 type Tab = { label: string; href?: string; icon: ReactNode };
 
@@ -56,9 +57,10 @@ export function BottomNav() {
             className={cn(
               "flex flex-col items-center justify-center rounded-full text-xs",
               "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground",
+              pressFlat,
               active
                 ? "place-self-center border-2 border-border bg-accent px-3.5 py-1 font-bold text-accent-foreground"
-                : "text-muted",
+                : "text-muted hover:bg-foreground/10",
             )}
           >
             {inner}

@@ -2,14 +2,16 @@
 
 import { Minus, Plus } from "lucide-react";
 import { useOptimistic, useState, useTransition } from "react";
+import { pressHardSm } from "@/components/ui/pressable";
 import { cn } from "@/lib/cn";
 import { formatInteger } from "@/lib/format";
 import { changeCounterAction } from "../actions";
 import type { PanelSize } from "../schema";
 
 const stepButton = cn(
-  "inline-flex size-tap shrink-0 items-center justify-center rounded-control border-2 border-border shadow-hard-sm [&_svg]:size-5",
+  "inline-flex size-tap shrink-0 items-center justify-center rounded-control border-2 border-border [&_svg]:size-5",
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground",
+  pressHardSm,
 );
 
 // Interactive part of the counter panel; works outside edit mode. Shows the value optimistically.

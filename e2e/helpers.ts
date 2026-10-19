@@ -36,6 +36,10 @@ export function addActivity(featureKey: string, summary: string, daysAgo: number
   );
 }
 
+export function count(sql: string): number {
+  return querySql<{ n: number }>(sql)[0].n;
+}
+
 export async function expectNoHorizontalScroll(page: Page) {
   const { scrollWidth, clientWidth } = await page.evaluate(() => ({
     scrollWidth: document.documentElement.scrollWidth,
@@ -65,13 +69,56 @@ export async function openEditor(page: Page) {
   await expect(page.getByRole("heading", { name: "Editando o início" })).toBeVisible();
 }
 
-export async function addPin(page: Page, label: string, href: string) {
+// `destination` is a page name from the "Destino" select (Início, Histórico) or a URL pasted as "Link".
+export async function addPin(page: Page, label: string, destination: string) {
   await page.getByRole("button", { name: "Adicionar", exact: true }).click();
   const dialog = page.getByRole("dialog");
+  if (/^https?:/.test(destination)) {
+    await dialog.getByLabel("Destino").selectOption({ label: "Link" });
+    await dialog.getByRole("textbox", { name: "Link" }).fill(destination);
+  } else {
+    await dialog.getByLabel("Destino").selectOption({ label: destination });
+  }
   await dialog.getByLabel("Nome").fill(label);
-  await dialog.getByLabel("Endereço").fill(href);
   await dialog.getByRole("button", { name: "Fixar" }).click();
   await expect(dialog).toBeHidden();
+}
+
+// Concluir in edit mode; waits until Início is shown again.
+export async function finishEditing(page: Page) {
+  await page.getByRole("button", { name: "Concluir" }).click();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.getByRole("heading", { name: "Início", level: 1 })).toBeVisible();
+}
+
+// Keyboard drag (spec 003): focus the handle, Space to lift, arrows to move, Space to drop.
+// dnd-kit starts listening for the arrow keys only after React re-renders the lifted item, so each step
+// waits; key presses sent back to back arrive before the listener exists and are lost.
+export async function keyboardMove(page: Page, handleName: string, key: "ArrowUp" | "ArrowDown" | "ArrowLeft" | "ArrowRight", times = 1) {
+  const handle = page.getByRole("button", { name: handleName, exact: true });
+  await handle.focus();
+  await page.keyboard.press("Space");
+  await expect(handle).toHaveAttribute("aria-pressed", "true");
+  for (let i = 0; i < times; i++) {
+    await page.waitForTimeout(100);
+    await page.keyboard.press(key);
+  }
+  await page.waitForTimeout(250); // the drop animation of the last step
+  await page.keyboard.press("Space");
+  await expect(handle).not.toHaveAttribute("aria-pressed", "true");
+}
+
+export function pinLabels(page: Page, scope: "edit" | "home") {
+  return scope === "edit"
+    ? page.locator("[data-pin]").evaluateAll((els) => els.map((e) => e.getAttribute("data-pin") ?? ""))
+    : page
+        .locator("section[aria-labelledby=fixados] li")
+        .evaluateAll((els) => els.map((e) => (e.textContent ?? "").replace("(abre em nova aba)", "").trim()));
+}
+
+// Top-level rows of an activity list (an edit session row has its own nested <li> items).
+export function activityRows(page: Page, scope: string) {
+  return page.locator(`${scope} ul.rounded-card > li`);
 }
 
 export async function addPanel(

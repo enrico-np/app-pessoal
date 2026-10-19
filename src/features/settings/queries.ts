@@ -1,6 +1,6 @@
 import { appSettings } from "./schema";
 import { DEFAULT_SETTINGS, isSettingKey, settingSchemas, type SettingKey, type Settings } from "./validation";
-import type { Db } from "@/db/types";
+import type { Db, DbOrTx } from "@/db/types";
 
 // Plain query functions. Pages read through data.ts (see CLAUDE.md).
 
@@ -16,7 +16,7 @@ export function getSettings(db: Db): Settings {
 }
 
 // Value must already be parsed with settingSchemas[key].
-export function setSetting<K extends SettingKey>(db: Db, key: K, value: Settings[K]): void {
+export function setSetting<K extends SettingKey>(db: DbOrTx, key: K, value: Settings[K]): void {
   db.insert(appSettings)
     .values({ key, value })
     .onConflictDoUpdate({ target: appSettings.key, set: { value } })

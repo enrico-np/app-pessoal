@@ -1,23 +1,14 @@
 "use server";
 
-import { z } from "zod";
+import { refresh } from "next/cache";
 import { db } from "@/db/client";
 import { isValidHref } from "@/lib/href";
 import { logActivity } from "./log";
 
-// No refresh(): an "open" row changes nothing on the current screen.
-
-const path = z.string().max(500).refine((p) => p.startsWith("/") && !p.startsWith("//"));
-
-// Called by TrackVisit on every client-side page view of an internal path.
-export async function logVisitAction(pathname: unknown): Promise<void> {
-  const parsed = path.safeParse(pathname);
-  if (!parsed.success) return;
-  logActivity(db, { kind: "open", featureKey: "visit", action: "page.open", summary: parsed.data, targetHref: parsed.data });
-}
-
-// External URLs are not page views of this app, so pins log them when tapped.
-export async function logExternalOpenAction(href: unknown): Promise<void> {
-  if (typeof href !== "string" || href.startsWith("/") || !isValidHref(href)) return;
-  logActivity(db, { kind: "open", featureKey: "visit", action: "link.open", summary: href, targetHref: href });
+// Called by PinLink on every tap of a pin (spec 003). refresh() re-renders Início so that, with
+// "Ordenar pelos mais usados" on, the new order shows when the user comes back from an external link.
+export async function logPinOpenAction(href: unknown): Promise<void> {
+  if (typeof href !== "string" || href.length > 2000 || !isValidHref(href)) return;
+  logActivity(db, { kind: "open", featureKey: "home", action: "pin.open", summary: href, targetHref: href });
+  refresh();
 }

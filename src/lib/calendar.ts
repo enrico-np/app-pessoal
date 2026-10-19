@@ -27,3 +27,16 @@ export function monthGrid(year: number, month: number): (Date | null)[] {
 }
 
 export const WEEKDAY_INITIALS = ["D", "S", "T", "Q", "Q", "S", "S"] as const;
+
+export const YEARS_PER_PAGE = 12;
+
+// The 12 years shown together in the year view: blocks aligned to multiples of 12 (2016–2027, 2028–2039).
+export function yearPage(year: number): number[] {
+  const first = year - (((year % YEARS_PER_PAGE) + YEARS_PER_PAGE) % YEARS_PER_PAGE);
+  return Array.from({ length: YEARS_PER_PAGE }, (_, i) => first + i);
+}
+
+// True when the month (0-based) starts after `today`. Used to disable months and years in the future.
+export function isFutureMonth(year: number, month: number, today: IsoDay): boolean {
+  return `${year}-${String(month + 1).padStart(2, "0")}` > today.slice(0, 7);
+}

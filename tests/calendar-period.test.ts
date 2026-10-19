@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { parsePeriod } from "@/features/activity/period";
-import { monthGrid, parseIsoDay, toIsoDay } from "@/lib/calendar";
+import { isFutureMonth, monthGrid, parseIsoDay, toIsoDay, yearPage } from "@/lib/calendar";
 
 describe("calendar", () => {
   test("parseIsoDay accepts real days only", () => {
@@ -16,6 +16,20 @@ describe("calendar", () => {
     expect(cells[4]?.getDate()).toBe(1);
     expect(cells.length % 7).toBe(0);
     expect(cells.filter(Boolean)).toHaveLength(31);
+  });
+
+  test("yearPage returns 12 consecutive years aligned to multiples of 12", () => {
+    expect(yearPage(2026)).toEqual([2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027]);
+    expect(yearPage(2016)[0]).toBe(2016);
+    expect(yearPage(2027)[0]).toBe(2016);
+    expect(yearPage(2028)[0]).toBe(2028);
+  });
+
+  test("isFutureMonth compares year and month with today", () => {
+    expect(isFutureMonth(2026, 9, "2026-10-19")).toBe(false); // October 2026, this month
+    expect(isFutureMonth(2026, 10, "2026-10-19")).toBe(true);
+    expect(isFutureMonth(2027, 0, "2026-10-19")).toBe(true);
+    expect(isFutureMonth(2025, 11, "2026-10-19")).toBe(false);
   });
 });
 

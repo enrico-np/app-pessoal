@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
-import { addActivity, clearDb, expectNoHorizontalScroll, expectTapTargets } from "./helpers";
+import { activityRows, addActivity, clearDb, expectNoHorizontalScroll, expectTapTargets } from "./helpers";
 
-// Browser checks for spec 002 "Done when" (Histórico page and period filter). Viewport is 360 x 740.
+// Browser checks for spec 002 and spec 003 "Done when" (Histórico page and period filter). Viewport is 360 x 740.
 
 test.beforeEach(() => {
   clearDb();
@@ -12,7 +12,39 @@ test.beforeEach(() => {
 });
 
 const sections = (page: import("@playwright/test").Page) => page.locator("main section h2");
-const entries = (page: import("@playwright/test").Page) => page.locator("main section li");
+const entries = (page: import("@playwright/test").Page) => activityRows(page, "main section");
+
+test("Início entries appear under Tudo, without an Início chip", async ({ page }) => {
+  addActivity("home", "Início editado · 1 mudança", 0, 8);
+  await page.goto("/historico");
+  const chips = page.getByRole("navigation", { name: "Filtrar por feature" }).getByRole("link");
+  await expect(chips).toHaveText(["Tudo", "Geral", "Tarefas"]);
+  await expect(entries(page)).toHaveCount(5);
+});
+
+test("the calendar title switches to months and years; future months and years are disabled", async ({ page }) => {
+  const now = new Date();
+  const monthTitle = new Intl.DateTimeFormat("pt-BR", { month: "long", year: "numeric" }).format(now);
+  await page.goto("/historico");
+  await page.getByRole("button", { name: "Filtrar por período" }).click();
+  const dialog = page.getByRole("dialog");
+  await dialog.getByRole("button", { name: new RegExp(`^${monthTitle}\\. Escolher mês$`, "i") }).click();
+
+  const months = dialog.getByRole("group", { name: `Meses de ${now.getFullYear()}` });
+  await expect(months.getByRole("button")).toHaveCount(12);
+  if (now.getMonth() < 11) await expect(months.getByRole("button").nth(now.getMonth() + 1)).toBeDisabled();
+  await expect(dialog.getByRole("button", { name: "Próximo ano" })).toBeDisabled();
+
+  await dialog.getByRole("button", { name: `${now.getFullYear()}. Escolher ano` }).click();
+  const years = dialog.getByRole("group", { name: "Anos" });
+  await expect(years.getByRole("button")).toHaveCount(12);
+  await expect(years.getByRole("button", { name: String(now.getFullYear() + 1) })).toHaveCount(now.getFullYear() % 12 === 11 ? 0 : 1);
+  await dialog.getByRole("button", { name: "Anos anteriores" }).click();
+  const earlier = now.getFullYear() - 12;
+  await years.getByRole("button", { name: String(earlier), exact: true }).click();
+  await dialog.getByRole("group", { name: `Meses de ${earlier}` }).getByRole("button", { name: "março" }).click();
+  await expect(dialog.getByRole("group", { name: new RegExp(`março de ${earlier}`, "i") })).toBeVisible();
+});
 
 test("groups entries by day, newest first, and marks Histórico as current", async ({ page }) => {
   await page.goto("/historico");

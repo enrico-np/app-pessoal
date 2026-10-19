@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { pressRow } from "./pressable";
 
 // A whole-row toggle: the row is the button, so the tap target is the full width.
 export function Switch({
@@ -28,6 +29,7 @@ export function Switch({
       onClick={() => onChange(!checked)}
       className={cn(
         "flex min-h-14 w-full items-center gap-3 px-4 py-2 text-left text-sm",
+        pressRow,
         "focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-foreground disabled:opacity-50",
       )}
     >

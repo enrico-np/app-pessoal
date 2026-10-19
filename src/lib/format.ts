@@ -5,6 +5,8 @@ const longDate = new Intl.DateTimeFormat("pt-BR", { weekday: "long", day: "numer
 const shortDate = new Intl.DateTimeFormat("pt-BR", { day: "numeric", month: "short" });
 const time = new Intl.DateTimeFormat("pt-BR", { hour: "2-digit", minute: "2-digit" });
 const monthYear = new Intl.DateTimeFormat("pt-BR", { month: "long", year: "numeric" });
+const monthShort = new Intl.DateTimeFormat("pt-BR", { month: "short" });
+const monthLong = new Intl.DateTimeFormat("pt-BR", { month: "long" });
 
 export function formatInteger(n: number): string {
   return integer.format(n);
@@ -32,6 +34,16 @@ export function formatTime(d: Date): string {
 // "Outubro de 2026"
 export function formatMonthYear(d: Date): string {
   return capitalize(monthYear.format(d));
+}
+
+// "Out." (calendar month grid)
+export function formatMonthShort(d: Date): string {
+  return capitalize(monthShort.format(d));
+}
+
+// "outubro" (screen reader name of a month button)
+export function formatMonthLong(d: Date): string {
+  return monthLong.format(d);
 }
 
 export function capitalize(s: string): string {

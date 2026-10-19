@@ -1,5 +1,6 @@
 // Undo/redo stack for the edit session (spec 002). Pure functions so they can be unit-tested.
-// Each entry holds the layout before and after one change; undo restores `before`, redo restores `after`.
+// Each entry holds the draft before and after one change; undo restores `before`, redo restores `after`.
+// Since spec 003 this only changes the on-screen draft, never the database.
 
 export const UNDO_LIMIT = 20;
 

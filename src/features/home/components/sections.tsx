@@ -2,6 +2,7 @@ import { Plus } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Icon } from "@/components/ui";
+import { pressFlat, pressHard } from "@/components/ui/pressable";
 import { ActivityList } from "@/features/activity/components/ActivityList";
 import { readActivity } from "@/features/activity/data";
 import { featureLabel } from "@/features/catalog";
@@ -26,7 +27,7 @@ export async function PinsSection() {
         <span id="fixados">Fixados</span>
       </SectionTitle>
       {pins.length === 0 ? (
-        <Link href="/editar" className="flex items-center gap-3 text-sm">
+        <Link href="/editar" className={cn("flex items-center gap-3 rounded-card text-sm", pressFlat)}>
           <span className="flex size-15 shrink-0 items-center justify-center rounded-card border-2 border-dashed border-muted [&_svg]:size-6">
             <Plus aria-hidden="true" />
           </span>
@@ -39,7 +40,7 @@ export async function PinsSection() {
         <ul className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none]">
           {pins.map((pin, i) => (
             <li key={pin.id} className="w-16 shrink-0 snap-start">
-              <PinLink href={pin.href} className="flex flex-col items-center gap-2 text-center text-xs">
+              <PinLink href={pin.href} className={cn("flex flex-col items-center gap-2 text-center text-xs", pressFlat)}>
                 <span className={cn(tile, i === 0 ? "bg-accent text-accent-foreground" : "bg-surface")}>
                   <Icon name={pin.icon} />
                 </span>
@@ -69,7 +70,10 @@ export async function PanelsSection() {
           <p className="text-sm text-muted">Adicione painéis para ver suas tarefas, contadores e notas assim que abrir o app.</p>
           <Link
             href="/editar?adicionar=1"
-            className="mt-1 inline-flex min-h-12 items-center gap-2 rounded-control border-2 border-border bg-accent px-5 font-bold text-accent-foreground shadow-hard [&_svg]:size-4"
+            className={cn(
+              "mt-1 inline-flex min-h-12 items-center gap-2 rounded-control border-2 border-border bg-accent px-5 font-bold text-accent-foreground [&_svg]:size-4",
+              pressHard,
+            )}
           >
             <Plus aria-hidden="true" />
             Adicionar primeiro painel
@@ -106,7 +110,7 @@ export async function HistorySection() {
           <ActivityList entries={entries} now={new Date()} showFeature={false} />
           <Link
             href="/historico"
-            className="flex min-h-tap items-center justify-center rounded-control border-2 border-border bg-surface text-sm shadow-hard"
+            className={cn("flex min-h-tap items-center justify-center rounded-control border-2 border-border bg-surface text-sm", pressHard)}
           >
             Ver histórico completo
           </Link>

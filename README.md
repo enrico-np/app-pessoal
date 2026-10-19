@@ -6,11 +6,11 @@ Personal app to make daily life easier, built one feature at a time.
 
 ## Screens
 
-- `/` Início: teal header with date and the gear (Ajustes: Editar início, Modo escuro, Tamanho do texto, Exportar dados, Fazer backup), then Fixados (up to 6 shortcuts), Painéis grouped by feature, and the last history entries.
-- `/editar`: add, remove, resize and reorder pins, panels and groups, with Desfazer/Refazer.
-- `/historico`: activity log grouped by day, filtered by feature and period.
+- `/` Início: teal header with date and the gear (Ajustes: Editar início, Modo escuro, Tamanho do texto, Exportar dados, Fazer backup), then Fixados (up to 8 shortcuts to app pages or links), Painéis grouped by feature, and the last history entries.
+- `/editar`: add, remove and resize pins and panels, and reorder pins, panels and groups by drag and drop, with Desfazer/Refazer. Nothing is saved until Concluir; Voltar asks before discarding.
+- `/historico`: activity log grouped by day, filtered by feature and period. An edit session is one row that expands to list its changes.
 
-See `specs/002-inicio-v2.md`.
+See `specs/002-inicio-v2.md` and `specs/003-inicio-ajustes.md`.
 
 ## Getting started
 
@@ -40,7 +40,7 @@ Each feature lives in `src/features/<name>/` (schema, queries, components).
 1. Create `src/features/<name>/schema.ts` with the Drizzle table(s).
 2. Re-export it from `src/db/schema.ts`, then run `npm run db:generate` and `npm run db:migrate`. Commit the generated file in `drizzle/`.
 3. To make it downloadable, add the table to `src/features/registry.ts`.
-4. Add pages under `src/app/<name>/`.
+4. Add pages under `src/app/<name>/`, and list them in `APP_PAGES` in `src/features/catalog.ts` so they can be pinned.
 5. To show it on Início, add panel types in `src/features/home/panel-types.ts` (with their components in `src/features/home/components/panels.tsx`) and the feature's label in `src/features/catalog.ts`.
 6. To record changes in Histórico, call `logActivity()` from `src/features/activity/log.ts` inside the feature's mutations.
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/cn";
+import { pressRow } from "./pressable";
 
 export type Segment<T extends string> = { value: T; label: string; ariaLabel?: string; className?: string };
 
@@ -34,7 +35,8 @@ export function SegmentedControl<T extends string>({
             className={cn(
               "min-h-tap min-w-tap flex-1 px-3 text-sm",
               i > 0 && "border-l-2 border-border",
-              selected ? "bg-accent font-bold text-accent-foreground" : "bg-surface text-foreground",
+              // Joined segments share borders, so they only tint; scaling would open gaps between them.
+              selected ? "bg-accent font-bold text-accent-foreground" : cn("bg-surface text-foreground", pressRow),
               "focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-foreground disabled:opacity-50",
               o.className,
             )}

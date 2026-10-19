@@ -11,15 +11,14 @@ async function Editor({ searchParams }: { searchParams: PageProps<"/editar">["se
   return (
     <EditHome
       layout={layout}
-      pinsOrder={settings.pins_order}
-      historyCount={settings.history_count}
+      settings={{ pins_order: settings.pins_order, history_count: settings.history_count }}
       openAddPanel={params.adicionar === "1"}
     />
   );
 }
 
 // Edit mode is its own route (spec 002 proposed /?editar=1): a Server Component page reads the layout
-// directly, and the bottom bar is hidden here (BottomNav HIDDEN_ON).
+// once, the client edits a draft of it (spec 003), and the bottom bar is hidden here (BottomNav HIDDEN_ON).
 export default function EditPage({ searchParams }: PageProps<"/editar">) {
   return (
     <Suspense fallback={<p className="p-6 text-sm text-muted">Carregando…</p>}>

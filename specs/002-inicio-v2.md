@@ -1,6 +1,6 @@
 # 002 – Início v2 (home, editing, settings, history)
 
-Status: shipped (2026-10-19)
+Status: shipped (2026-10-19). Parts changed by `specs/003-inicio-ajustes.md` (pin cap, pin ordering, edit sessions, drag and drop, Histórico rows and chips, calendar).
 
 Design source: Design canvas "Menu principal — ideias", boards E, E1, E2, E3, E4, E5, E5b, E6, E7. Visual rules: design system "app-pessoal" (teal neo-brutalist, Parkinsans titles, Geist body).
 

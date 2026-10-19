@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { Dialog, IconButton, SegmentedControl, Switch } from "@/components/ui";
+import { pressHard, pressRow } from "@/components/ui/pressable";
+import { cn } from "@/lib/cn";
 import { formatShortDate, formatTime } from "@/lib/format";
 import { updateSettingAction } from "../actions";
 import type { Settings, TextSize } from "../validation";
@@ -16,7 +18,7 @@ const TEXT_SIZES: { value: TextSize; label: string; ariaLabel: string; className
 ];
 
 const card = "overflow-hidden rounded-card border-2 border-border bg-surface shadow-hard";
-const rowLink = "flex min-h-14 items-center gap-3 px-4 py-2 text-sm [&>svg]:size-5 [&>svg]:shrink-0";
+const rowLink = cn("flex min-h-14 items-center gap-3 px-4 py-2 text-sm [&>svg]:size-5 [&>svg]:shrink-0", pressRow);
 
 // Gear menu (spec 002, design board E3). Opened from the teal header on Início.
 export function SettingsSheet({
@@ -57,7 +59,10 @@ export function SettingsSheet({
           <Link
             href="/editar"
             onClick={() => setOpen(false)}
-            className="flex min-h-14 items-center gap-3 rounded-card border-2 border-border bg-accent px-4 font-bold text-accent-foreground shadow-hard [&>svg]:size-5"
+            className={cn(
+              "flex min-h-14 items-center gap-3 rounded-card border-2 border-border bg-accent px-4 font-bold text-accent-foreground [&>svg]:size-5",
+              pressHard,
+            )}
           >
             <Pencil aria-hidden="true" />
             <span className="flex-1">Editar início</span>

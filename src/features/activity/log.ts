@@ -7,6 +7,7 @@ export type ActivityEntry = {
   action: string;
   summary: string;
   targetHref?: string | null;
+  details?: string[] | null;
   at?: Date;
 };
 
@@ -20,6 +21,7 @@ export function logActivity(db: DbOrTx, entry: ActivityEntry): ActivityRow {
       action: entry.action,
       summary: entry.summary,
       targetHref: entry.targetHref ?? null,
+      details: entry.details ?? null,
       ...(entry.at ? { createdAt: entry.at } : {}),
     })
     .returning()

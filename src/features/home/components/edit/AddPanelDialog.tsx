@@ -15,7 +15,6 @@ export function AddPanelDialog({
   open,
   initialFeature,
   usedTypeKeys,
-  pending,
   error,
   onClose,
   onAdd,
@@ -23,7 +22,6 @@ export function AddPanelDialog({
   open: boolean;
   initialFeature?: string;
   usedTypeKeys: string[];
-  pending: boolean;
   error: string | null;
   onClose: () => void;
   onAdd: (input: { typeKey: string; size: PanelSize; config: Record<string, unknown> }) => void;
@@ -126,7 +124,7 @@ export function AddPanelDialog({
             {error}
           </p>
         )}
-        <Button type="submit" disabled={!type || pending} className="min-h-12 text-base font-bold">
+        <Button type="submit" disabled={!type} className="min-h-12 text-base font-bold">
           Adicionar ao início
         </Button>
       </form>

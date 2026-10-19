@@ -1,10 +1,12 @@
 import { z } from "zod";
 import { ICON_NAMES } from "@/components/ui/icon-names";
+import { settingSchemas } from "@/features/settings/validation";
 import { isValidHref } from "@/lib/href";
 import { PANEL_SIZES } from "./schema";
 
-export const PIN_MAX = 6;
+export const PIN_MAX = 8;
 export const PIN_LABEL_MAX = 20;
+export const PIN_CAP_MESSAGE = `Você já fixou ${PIN_MAX} atalhos. Remova um para fixar outro.`;
 
 export const pinSchema = z.object({
   label: z
@@ -32,33 +34,29 @@ export const panelUpdateSchema = z.object({
   config: z.record(z.string(), z.unknown()).optional(),
 });
 
-export const directionSchema = z.enum(["earlier", "later"]);
-export type Direction = z.infer<typeof directionSchema>;
-
 export const idSchema = z.int().positive();
 
-// Shape of a layout snapshot sent back by the client for undo/redo. Dates arrive as Date (RSC) or ISO strings.
-export const layoutSchema = z.object({
-  pins: z.array(
+export const CHANGE_MAX = 500;
+
+// What the edit screen sends on Concluir (spec 003). Ids of rows added in the session are 0 or negative.
+// Panel configs and the panel type rules are checked again in saveEditSessionMutation.
+export const editSessionSchema = z.object({
+  pins: z.array(pinSchema.extend({ id: z.int() })),
+  groups: z.array(
     z.object({
-      id: idSchema,
-      label: z.string(),
-      icon: z.string(),
-      href: z.string(),
-      position: z.int(),
-      createdAt: z.coerce.date(),
+      key: z.string().min(1),
+      panels: z.array(
+        z.object({
+          id: z.int(),
+          typeKey: z.string(),
+          size: z.enum(PANEL_SIZES, { error: "Tamanho inválido." }),
+          config: z.record(z.string(), z.unknown()),
+        }),
+      ),
     }),
   ),
-  panels: z.array(
-    z.object({
-      id: idSchema,
-      typeKey: z.string(),
-      groupKey: z.string(),
-      size: z.enum(PANEL_SIZES),
-      position: z.int(),
-      config: z.record(z.string(), z.unknown()),
-      createdAt: z.coerce.date(),
-    }),
-  ),
-  groups: z.array(z.object({ groupKey: z.string(), position: z.int() })),
+  settings: z.object({ pins_order: settingSchemas.pins_order, history_count: settingSchemas.history_count }),
+  changes: z.array(z.string().min(1).max(300)).min(1).max(CHANGE_MAX),
 });
+
+export type EditSessionInput = z.infer<typeof editSessionSchema>;

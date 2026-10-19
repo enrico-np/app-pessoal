@@ -1,10 +1,12 @@
 import Link from "next/link";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { pressHardSm } from "./pressable";
 
 // Round 44 px button with a small hard shadow, used in the teal header (gear, calendar).
 const classes = cn(
-  "inline-flex size-tap items-center justify-center rounded-full border-2 border-border bg-surface text-foreground shadow-hard-sm",
+  "inline-flex size-tap items-center justify-center rounded-full border-2 border-border bg-surface text-foreground",
+  pressHardSm,
   "[&_svg]:size-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground",
 );
 

@@ -1,8 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { addPanelMutation, addPinMutation, removePanelMutation, restoreLayoutMutation } from "@/features/home/mutations";
-import { getLayout, listPanels } from "@/features/home/queries";
 import { emptyStack, pushChange, redo, undo, UNDO_LIMIT } from "@/features/home/undo";
-import { createTestDb } from "./helpers/db";
 
 describe("undo stack", () => {
   const entry = (n: number) => ({ label: `c${n}`, before: n - 1, after: n });
@@ -34,31 +31,5 @@ describe("undo stack", () => {
     const s = emptyStack<number>();
     expect(undo(s)).toEqual({ stack: s });
     expect(redo(s)).toEqual({ stack: s });
-  });
-});
-
-describe("restoreLayoutMutation", () => {
-  test("restoring `before` undoes a removal with the same ids; `after` redoes it", () => {
-    const db = createTestDb();
-    addPinMutation(db, { label: "A", icon: "star", href: "/" });
-    addPanelMutation(db, { typeKey: "general.counter", size: "lg", config: { label: "Água", goal: 8 } });
-    const removed = removePanelMutation(db, listPanels(db)[0].id);
-    if (!removed.ok) throw new Error(removed.error);
-    expect(listPanels(db)).toEqual([]);
-
-    expect(restoreLayoutMutation(db, removed.data.before, "undo")).toEqual({ ok: true });
-    expect(getLayout(db)).toEqual(removed.data.before);
-
-    expect(restoreLayoutMutation(db, removed.data.after, "redo")).toEqual({ ok: true });
-    expect(getLayout(db)).toEqual(removed.data.after);
-  });
-
-  test("a snapshot with an unknown panel type is rejected and nothing changes", () => {
-    const db = createTestDb();
-    addPanelMutation(db, { typeKey: "general.counter", size: "md", config: { label: "A" } });
-    const layout = getLayout(db);
-    const bad = { ...layout, panels: layout.panels.map((p) => ({ ...p, typeKey: "x" })) };
-    expect(restoreLayoutMutation(db, bad, "undo").ok).toBe(false);
-    expect(getLayout(db)).toEqual(layout);
   });
 });
